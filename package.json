@@ -1,0 +1,27 @@
+{
+	"name": "fulfil-server",
+	"version": "1.0.0",
+	"description": "Backend for Fulfil todo app",
+	"main": "server.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/TakaoIsDaBest/fulfil-s.git"
+	},
+	"author": "TakaoIsDaBest",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/TakaoIsDaBest/fulfil-s/issues"
+	},
+	"homepage": "https://github.com/TakaoIsDaBest/fulfil-s#readme",
+	"dependencies": {
+		"bcryptjs": "^2.4.3",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"express-async-handler": "^1.2.0",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.7.2"
+	}
+}
