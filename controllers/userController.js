@@ -37,7 +37,7 @@ export const registerUser = asyncHandler(async (req, res) => {
 		throw new Error("Invalid user data");
 	}
 
-	res.status(200).json({ message: `${user.name}` });
+	res.status(200).json({ message: "User register" });
 });
 
 // Generate JWT
