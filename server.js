@@ -4,6 +4,9 @@ import cors from "cors";
 
 import db from "./config/db.js";
 
+// Middleware
+import errorHandler from "./middleware/errorMiddleware.js";
+
 // Routes
 import userRoutes from "./routes/userRoutes.js";
 
@@ -18,7 +21,7 @@ app.use(cors());
 app.use("/api/users", userRoutes);
 // app.use("/api/todos", userRoutes));
 
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
