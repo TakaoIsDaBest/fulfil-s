@@ -60,6 +60,28 @@ export const registerUser = asyncHandler(async (req, res) => {
 	res.status(200).json({ message: "User register" });
 });
 
+// @desc    Authenticate a user
+// @route   POST /api/users/login
+// @access  Public
+export const loginUser = asyncHandler(async (req, res) => {
+	const { username, password } = req.body;
+
+	// Check for user email
+	const user = await User.findOne({ username });
+
+	if (!user) {
+		res.status(400);
+		throw new Error("Wrong username", { cause: "username" });
+	}
+
+	if (!(await bcrypt.compare(password, user.password))) {
+		res.status(400);
+		throw new Error("Wrong password", { cause: "password" });
+	}
+
+	res.json({ _id: user.id, username: user.username, token: generateToken(user._id) });
+});
+
 // Generate JWT
 const generateToken = (id) => {
 	return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "30d" });
