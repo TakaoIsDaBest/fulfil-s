@@ -4,7 +4,20 @@ const userSchema = mongoose.Schema(
 	{
 		username: { type: String, required: [true, "Please enter a username."] },
 		password: { type: String, required: [true, "Please enter a password."] },
-		todos: { type: [{ type: String }], required: true, default: [] }
+		todos: {
+			type: [
+				{
+					_id: mongoose.Types.ObjectId,
+					title: String,
+					main: String,
+					tags: [{ type: String }],
+					color: String,
+					updatedAt: { type: Date, default: Date.now }
+				}
+			],
+			required: true,
+			default: []
+		}
 	},
 	{ timestamps: true }
 );
