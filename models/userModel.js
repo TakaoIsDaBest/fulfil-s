@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema(
 		todos: {
 			type: [
 				{
-					_id: mongoose.Types.ObjectId,
+					id: mongoose.Schema.Types.ObjectId,
 					title: String,
 					main: String,
 					tags: [{ type: String }],
