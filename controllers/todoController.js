@@ -26,10 +26,10 @@ export const createTodo = asyncHandler(async (req, res) => {
 	res.status(200).json(user.todos);
 });
 
-// @desc    Get all todos
+// @desc    Get user todos
 // @route   GET /api/users/:username/todos
 // @access  Private
-export const getAll = asyncHandler(async (req, res) => {
+export const getUserTodos = asyncHandler(async (req, res) => {
 	if (!req.params.username) {
 		res.status(400);
 		throw new Error("Sorry. Something went wrong.");
@@ -37,7 +37,9 @@ export const getAll = asyncHandler(async (req, res) => {
 
 	const user = await User.findOne({ username: req.params.username }, "todos");
 
-	res.status(200).json(user.todos);
+	const todos = user.todos.slice(req.body.start, req.body.start + 10);
+
+	res.status(200).json({ todos, more: req.body.start + 1 <= user.todos.length });
 });
 
 // @desc    Edit a todo
@@ -64,10 +66,12 @@ export const editTodo = asyncHandler(async (req, res) => {
 		{ new: true }
 	);
 
-	res.status(200).json(user.todos);
+	const todos = user.todos.slice(0, 10);
+
+	res.status(200).json(todos);
 });
 
-// @desc    Edit a todo
+// @desc    Delete a todo
 // @route   DELETE /api/users/:username/todos/:todoId
 // @access  Private
 export const deleteTodo = asyncHandler(async (req, res) => {
@@ -83,6 +87,7 @@ export const deleteTodo = asyncHandler(async (req, res) => {
 		{ $pull: { todos: { _id: todoId } } },
 		{ new: true }
 	);
+	const todos = user.todos.slice(0, 10);
 
-	res.status(200).json(user.todos);
+	res.status(200).json(todos);
 });
