@@ -37,7 +37,15 @@ export const getUserTodos = asyncHandler(async (req, res) => {
 
 	const user = await User.findOne({ username: req.params.username }, "todos");
 
-	const todos = user.todos.slice(req.body.start, req.body.start + 10);
+	const todos = user.todos
+		.filter((todo) => {
+			if (todo.title.includes(req.body.query) || todo.tags.some((tag) => tag.includes(req.body.query))) {
+				return true;
+			}
+
+			return false;
+		})
+		.slice(req.body.start, req.body.start + 10);
 
 	res.status(200).json({ todos, more: req.body.start + 1 <= user.todos.length });
 });
@@ -66,9 +74,7 @@ export const editTodo = asyncHandler(async (req, res) => {
 		{ new: true }
 	);
 
-	const todos = user.todos.slice(0, 10);
-
-	res.status(200).json(todos);
+	res.status(200).json(user.todos);
 });
 
 // @desc    Delete a todo
@@ -87,7 +93,6 @@ export const deleteTodo = asyncHandler(async (req, res) => {
 		{ $pull: { todos: { _id: todoId } } },
 		{ new: true }
 	);
-	const todos = user.todos.slice(0, 10);
 
-	res.status(200).json(todos);
+	res.status(200).json(user.todos);
 });
